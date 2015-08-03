@@ -1,4 +1,5 @@
 <!-- https://github.com/ilesinge/prodo -->
+<title id="title"></title>
 <a id="link">HTTP link</a>
 <iframe id="iframe"></iframe>
 <textarea id="content" onkeyup="updateLink()"></textarea>
@@ -16,20 +17,24 @@
         border: none;
         z-index: 10;
         background: none;
-        padding: 10px;
+        padding: 30px 10px 10px 10px;
     }
     a {
         display: none;
         position: fixed;
         z-index: 20;
         right: 0;
-        top:10px;
+        top:0px;
         background-color: black;
         padding:10px;
         text-decoration:none;
         text-transform:uppercase;
         color:white;
-        opacity: 0.5;
+        opacity: 0.8;
+        letter-spacing:1px;
+    }
+    a:hover{
+      opacity:1;
     }
     iframe {
         position: absolute;
@@ -49,8 +54,14 @@
     function updateLink() {
         var text = document.getElementById('content');
         var base64 = window.btoa(unescape(encodeURIComponent(text.value)));
+        var title = document.getElementById('title');
         var url = '?'+base64;
         var a = document.getElementById('link');
+        if (text.value === "") {
+          title.innerHTML = '  &#x259B;';
+        }else {
+          title.innerHTML = text.value.substring(0, 60);
+        }
         a.style.display = 'block';
         a.href = url;
         document.getElementById('iframe').srcdoc = text.value;
