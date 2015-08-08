@@ -1,73 +1,88 @@
-<!--
-  https://github.com/ilesinge/prodo
--->
-<title>prodo</title>
-<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAVFBMVEUAAAA7HThLKlVZMGdkTZ5+aHKokpzy6tny8fPz8fPz8vT08vL18/P18/X29PT29fX29fb29vb39ff39vj59/n5+Pf6+fj6+vn7+/r8+/v8/Pv///+TfMMYAAAAAXRSTlMAQObYZgAAAGFJREFUGBkFwTGKAgEQAMGaZdxAEAz8/w8Fk0uE27ZqnAC+MG6vaeI9fXFQVbnPiYOqivucLEn4Iw6qqufMYFVCDz4sAYAlALBc4BoGyz8QsFzTxABLCQGrAIhVAMQYAMgPRMM6KFq6B60AAAAASUVORK5CYII=" rel="icon" type="image/png" />
-<a id="link" tabindex=2 >link</a>
+<!DOCTYPE html>
+<head>
+    <script>
+        var search = window.location.search.split('?');
+        var data = search[search.length - 1];
+        if (data) {
+            window.location = 'data:text/html;charset=utf-8;base64,'+data;
+        }
+    </script>
+    <!-- https://github.com/ilesinge/prodo -->
+    <title>prodo</title>
+    <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAVFBMVEUAAAA7HThLKlVZMGdkTZ5+aHKokpzy6tny8fPz8fPz8vT08vL18/P18/X29PT29fX29fb29vb39ff39vj59/n5+Pf6+fj6+vn7+/r8+/v8/Pv///+TfMMYAAAAAXRSTlMAQObYZgAAAGFJREFUGBkFwTGKAgEQAMGaZdxAEAz8/w8Fk0uE27ZqnAC+MG6vaeI9fXFQVbnPiYOqivucLEn4Iw6qqufMYFVCDz4sAYAlALBc4BoGyz8QsFzTxABLCQGrAIhVAMQYAMgPRMM6KFq6B60AAAAASUVORK5CYII=" rel="icon" type="image/png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background:white;
+        }
+        textarea {
+            font-family: monospace;
+            position: absolute;
+            box-sizing: border-box;
+            overflow: auto;
+            margin:0;
+            outline: 0;
+            resize: none;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            border: none;
+            z-index: 10;
+            background: none;
+            padding: 30px 0 10px 10px;
+            margin: 0 20px 20px 0;
+            text-shadow: #fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,
+                         #fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 5px,#fff 0px 0px 5px,#fff 0px 0px 5px,#fff 0px 0px 5px;
+        }
+        a {
+            display: none;
+            position: fixed;
+            z-index: 20;
+            font-family: monospace;
+            right: 0;
+            top: 0;
+            background-color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: white;
+            font-size:1em;
+            letter-spacing:2px;
+            opacity: 0.5;
+            transition: opacity .2s;
+        }
+        a:hover, a:focus {
+            opacity: 1;
+        }
+        a:active {
+            color: #ccc;
+        }
+        iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        ::selection {
+          background:rgb(255, 255, 0);
+          text-shadow:none;
+          }
+        ::-moz-selection {
+          background:rgb(255, 255, 0);
+          text-shadow:none;
+          }
+    </style>
+</head>
+<a id="link" tabindex="2">link</a>
 <iframe id="iframe"></iframe>
-<textarea tabindex=1 id="content" onkeyup="updateLink()"></textarea>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    textarea {
-        position: absolute;
-        box-sizing: border-box;
-        font-family: monospace;
-        color:black;
-        margin:0;
-        outline: 0;
-        resize: none;
-        width: 100%;
-        height: 100%;
-        border: none;
-        z-index: 10;
-        background: none;
-        padding: 30px 10px 10px 10px;
-        text-shadow: 0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff,0 0 4px #fff,
-        0 0 4px #fff;
-    }
-    iframe {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 0;
-    }
-    a {
-        display: none;
-        position: fixed;
-        z-index: 20;
-        right: 0;
-        top: 0px;
-        background-color: black;
-        padding: 10px 15px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-family:monospace;
-        color: white;
-        opacity: 0.7;
-        letter-spacing: 2px;
-    }
-    a:hover,a:focus{opacity: 1;}
-    a:active{color: #ccc;}
-</style>
+<textarea tabindex="1" id="content" oninput="updateLink()"></textarea>
 <script>
-    var search = window.location.search.split('?');
-    var data = search[search.length - 1];
-    if (data) {
-        window.location = 'data:text/html;charset=utf-8;base64,'+data;
-    }
     document.getElementById('content').focus();
     function updateLink() {
         var text = document.getElementById('content');
+        document.getElementById('iframe').srcdoc = text.value;
         var base64 = window.btoa(unescape(encodeURIComponent(text.value)));
         var title = document.getElementsByTagName('title')[0];
         var url = '?'+base64;
@@ -79,6 +94,5 @@
         }
         a.style.display = 'block';
         a.href = url;
-        document.getElementById('iframe').srcdoc = text.value;
     }
 </script>
