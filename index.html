@@ -33,16 +33,23 @@
             background: none;
             padding: 30px 0 10px 10px;
             margin: 0 20px 20px 0;
-            text-shadow: #fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 1px,
-                         #fff 0px 0px 1px,#fff 0px 0px 1px,#fff 0px 0px 5px,#fff 0px 0px 5px,#fff 0px 0px 5px,#fff 0px 0px 5px;
+            color: #000;
+            text-shadow: 0 0 1px #FFF, 0 0 1px #FFF, 0 0 1px #FFF, 0 0 1px #FFF,
+                         0 0 1px #FFF, 0 0 1px #FFF, 0 0 5px #FFF, 0 0 5px #FFF,
+                         0 0 5px #FFF, 0 0 5px #FFF, 0 0 5px #FFF, 0 0 5px #FFF,
+                         0 0 5px #FFF;
         }
-        a {
+        #btns{
             display: none;
             position: fixed;
             z-index: 20;
             font-family: monospace;
             right: 0;
             top: 0;
+        }
+        a {
+            display:block;
+            float:left;
             background-color: black;
             padding: 10px 15px;
             text-decoration: none;
@@ -52,6 +59,7 @@
             letter-spacing:2px;
             opacity: 0.5;
             transition: opacity .2s;
+            cursor:pointer;
         }
         a:hover, a:focus {
             opacity: 1;
@@ -65,36 +73,68 @@
             height: 100%;
             border: 0;
         }
+        a.success{
+            color:transparent;
+            position:relative;
+        }
+        a.success:after{
+            content:" ✔";
+            position:absolute;
+            color:white;
+            font-size:30px;
+            left:40%;
+            top:-4px;
+        }
         ::selection {
-          background:rgb(0, 0, 0);
-          text-shadow:none;
-          color:white;
+            background:rgb(0, 0, 0);
+            text-shadow:none;
+            color:white;
           }
         ::-moz-selection {
-          background:rgb(0, 0, 0);
-          text-shadow:none;
-          color:white;
+            background:rgb(0, 0, 0);
+            text-shadow:none;
+            color:white;
           }
     </style>
 </head>
-<a id="link" tabindex="2">link</a>
+<span id="btns">
+  <a id="link" tabindex="2">link</a>
+  <a id="copy" data-clipboard-text="">copy</a>
+</span>
+
 <iframe id="iframe"></iframe>
 <textarea tabindex="1" id="content" oninput="updateLink()"></textarea>
+<script src="clipboard.min.js"></script>
 <script>
     document.getElementById('content').focus();
+    var a = document.getElementById('link');
+    var b = document.getElementById('btns');
+    var c = document.getElementById('copy');
     function updateLink() {
         var text = document.getElementById('content');
         document.getElementById('iframe').srcdoc = text.value;
         var base64 = window.btoa(unescape(encodeURIComponent(text.value)));
         var title = document.getElementsByTagName('title')[0];
-        var url = '?'+base64;
-        var a = document.getElementById('link');
+        var url = window.location.href +'?'+base64;
         if (text.value === "") {
           title.innerHTML = 'prodo';
         }else {
           title.innerHTML = text.value.substring(0, 60);
         }
-        a.style.display = 'block';
+        b.style.display = 'block';
         a.href = url;
+        c.setAttribute('data-clipboard-text',url);
     }
+    var clipboard = new Clipboard(c);
+    function anim(elm){
+      elm.classList.remove('success');
+    }
+    clipboard.on('success', function(e) {
+      var trigger = e.trigger;
+      trigger.classList.add('success');
+      setTimeout(function() {
+        anim(trigger);
+      }, 700)
+    });
+
 </script>
